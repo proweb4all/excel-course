@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import {$} from '@core/dom';
 
 export class Excel {
@@ -9,7 +10,7 @@ export class Excel {
     const $root = $.create('div', 'excel');
     this.components = this.components.map(Component => {
       const $el = $.create('div', Component.className)
-      console.log($el)
+      // console.log($el)
       const component = new Component($el)
       $el.html(component.toHTML())
       $root.append($el)
@@ -19,6 +20,7 @@ export class Excel {
   }
   render() {
     this.$el.append(this.getRoot())
-    console.log(this.components)
+    // console.log(this.components)
+    this.components.forEach((component => component.init()))
   }
 }

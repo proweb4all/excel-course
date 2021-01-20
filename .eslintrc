@@ -16,6 +16,9 @@
     "arrow-parens": "off",
     "no-empty": "warn",
     "operator-linebreak": "off",
-    "padded-blocks": "off"
+    "padded-blocks": "off",
+    "linebreak-style": "off",
+    "max-len": "off",
+    "eol-last": "off"
   }
 }
