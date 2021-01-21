@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {ExcelComponent} from '@core/ExcelComponent';
 
 export class Toolbar extends ExcelComponent {
@@ -9,9 +8,11 @@ export class Toolbar extends ExcelComponent {
       listeners: ['click']
     })
   }
+
   onClick(event) {
-    console.log('Toolbar: onClick', event.target)
+    // console.log('Toolbar: onClick', event.target)
   }
+
   toHTML() {
     return `
       <div class="button">
