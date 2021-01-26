@@ -44,7 +44,8 @@
     outline: none;
     &.selected {
       border: none;
-      outline: 1px solid $primary-color;
+      outline: 2px solid $primary-color;
+      z-index: 2;
     }
   }
   .column {

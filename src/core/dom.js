@@ -41,6 +41,9 @@ class Dom {
   getCoords() {
     return this.$el.getBoundingClientRect()
   }
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
   }
@@ -48,7 +51,12 @@ class Dom {
     Object.keys(styles).forEach(key => {
       this.$el.style[key] = styles[key]
     })
-    // return this
+  }
+  addClass(className) {
+    this.$el.classList.add(className)
+  }
+  removeClass(className) {
+    this.$el.classList.remove(className)
   }
 }
 
