@@ -11,7 +11,13 @@ const CODES = {
 function createCell(row) {
   return function(_, col) {
     return `
-      <div class="cell" contenteditable data-col="${col}" data-id="${row}:${col}"></div>
+      <div 
+        class="cell" 
+        contenteditable 
+        data-col="${col}" 
+        data-id="${row}:${col}"
+        data-type="cell"
+      ></div>
     `
   }
 }
