@@ -8,9 +8,10 @@ import {$} from '@core/dom';
 
 export class Table extends ExcelComponent {
   static className = 'excel__table'
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
-      listeners: ['mousedown', 'keydown']
+      listeners: ['mousedown', 'keydown'],
+      ...options
     })
   }
   toHTML() {
@@ -24,6 +25,10 @@ export class Table extends ExcelComponent {
     super.init()
     const $cell = this.$root.find('[data-id="0:0"')
     this.selection.select($cell)
+    this.emitter.subscribe('input formula', text => {
+      this.selection.current.text(text)
+      console.log('Table from Formula', text)
+    })
   }
   onMousedown(event) {
     if (shouldResize(event)) {
