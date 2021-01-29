@@ -10,7 +10,7 @@ export class Table extends ExcelComponent {
   static className = 'excel__table'
   constructor($root, options) {
     super($root, {
-      listeners: ['mousedown', 'keydown'],
+      listeners: ['mousedown', 'keydown', 'input'],
       ...options
     })
   }
@@ -20,21 +20,27 @@ export class Table extends ExcelComponent {
   prepare() {
     this.selection = new TableSelection()
   }
-
   init() {
     super.init()
     const $cell = this.$root.find('[data-id="0:0"')
-    this.selection.select($cell)
-    this.emitter.subscribe('input formula', text => {
+    this.selectCell($cell)
+    this.$on('Formula:input', text => {
       this.selection.current.text(text)
-      console.log('Table from Formula', text)
     })
+    this.$on('Formula:enter', () => {
+      this.selection.current.focus()
+    })
+  }
+  selectCell($cell) {
+    this.selection.select($cell)
+    this.$emit('Table:select', $cell)
   }
   onMousedown(event) {
     if (shouldResize(event)) {
       resizeHandler(this.$root, event)
     } else if (isCell(event)) {
       const $target = $(event.target)
+      this.$emit('Table:select', $target)
       if (event.ctrlKey) {
         this.selection.selectAdd($target)
       } else if (event.shiftKey) {
@@ -59,7 +65,10 @@ export class Table extends ExcelComponent {
       event.preventDefault()
       const id = this.selection.current.id(true)
       const $next = this.$root.find(nextSelector(key, id))
-      this.selection.select($next)
+      this.selectCell($next)
     }
+  }
+  onInput(event) {
+    this.$emit('Table:input', $(event.target))
   }
 }
