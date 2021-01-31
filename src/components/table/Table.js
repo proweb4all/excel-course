@@ -1,9 +1,10 @@
 import {ExcelComponent} from '@core/ExcelComponent';
 import {createTable} from '@/components/table/table.template';
-import {resizeHandler} from '@/components/table/table.size';
+import {resizeHandler} from '@/components/table/table.resize';
 import {isCell, matrix, nextSelector, shouldResize} from '@/components/table/table.functions';
 import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/dom';
+import * as actions from '@/redux/actions';
 
 
 export class Table extends ExcelComponent {
@@ -15,7 +16,7 @@ export class Table extends ExcelComponent {
     })
   }
   toHTML() {
-    return createTable(16)
+    return createTable(16, this.store.getState())
   }
   prepare() {
     this.selection = new TableSelection()
@@ -26,18 +27,32 @@ export class Table extends ExcelComponent {
     this.selectCell($cell)
     this.$on('Formula:input', text => {
       this.selection.current.text(text)
+      this.updateTextInStore(text)
     })
     this.$on('Formula:enter', () => {
       this.selection.current.focus()
     })
+    // this.$subscribe(state => {
+    //   console.log('TableState', state)
+    // })
   }
   selectCell($cell) {
     this.selection.select($cell)
     this.$emit('Table:select', $cell)
+    // this.$dispatch({type: 'TEST'})
+  }
+  async resizeTable(event) {
+    try {
+      const data = await resizeHandler(this.$root, event)
+      this.$dispatch(actions.tableResize(data))
+      // console.log('data', data)
+    } catch (e) {
+      console.warn('Resize error', e.message)
+    }
   }
   onMousedown(event) {
     if (shouldResize(event)) {
-      resizeHandler(this.$root, event)
+      this.resizeTable(event)
     } else if (isCell(event)) {
       const $target = $(event.target)
       this.$emit('Table:select', $target)
@@ -47,7 +62,8 @@ export class Table extends ExcelComponent {
         const $cells = matrix(this.selection.current, $target).map(id => this.$root.find(`[data-id="${id}"]`))
         this.selection.selectGroup($target, $cells)
       } else {
-        this.selection.select($target)
+        // this.selection.select($target)
+        this.selectCell($target)
       }
     }
   }
@@ -68,7 +84,19 @@ export class Table extends ExcelComponent {
       this.selectCell($next)
     }
   }
+  updateTextInStore(value) {
+    this.$dispatch(actions.changeText({
+      id: this.selection.current.id(),
+      value
+    }))
+  }
+
   onInput(event) {
-    this.$emit('Table:input', $(event.target))
+    // this.$emit('Table:input', $(event.target))
+    this.updateTextInStore($(event.target).text())
+    // this.$dispatch(actions.changeText({
+    //   id: this.selection.current.id(),
+    //   value: $(event.target).text()
+    // }))
   }
 }

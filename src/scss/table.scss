@@ -33,7 +33,7 @@
   }
   .cell {
     display: flex;
-    min-width: 20px;
+    min-width: 12px;
     align-items: center;
     width: $data-sell-width;
     border-right: 1px solid $border-color;
@@ -54,7 +54,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 20px;
+    min-width: 12px;
     width: $data-sell-width;
     font-weight: bold;
     background: #eee;

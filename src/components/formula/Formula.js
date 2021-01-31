@@ -1,5 +1,6 @@
 import {ExcelComponent} from '@core/ExcelComponent';
 import {$} from '../../core/dom';
+// import * as actions from '@/redux/actions';
 
 export class Formula extends ExcelComponent {
   static className = 'excel__formula'
@@ -22,8 +23,11 @@ export class Formula extends ExcelComponent {
     this.$on('Table:select', $el => {
       this.$formula.text($el.text())
     })
-    this.$on('Table:input', $el => {
-      this.$formula.text($el.text())
+    // this.$on('Table:input', $el => {
+    //   this.$formula.text($el.text())
+    // })
+    this.$subscribe(state => {
+      this.$formula.text(state.currentText)
     })
   }
   onInput(event) {
