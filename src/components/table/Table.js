@@ -32,20 +32,15 @@ export class Table extends ExcelComponent {
     this.$on('Formula:enter', () => {
       this.selection.current.focus()
     })
-    // this.$subscribe(state => {
-    //   console.log('TableState', state)
-    // })
   }
   selectCell($cell) {
     this.selection.select($cell)
     this.$emit('Table:select', $cell)
-    // this.$dispatch({type: 'TEST'})
   }
   async resizeTable(event) {
     try {
       const data = await resizeHandler(this.$root, event)
       this.$dispatch(actions.tableResize(data))
-      // console.log('data', data)
     } catch (e) {
       console.warn('Resize error', e.message)
     }
@@ -92,11 +87,6 @@ export class Table extends ExcelComponent {
   }
 
   onInput(event) {
-    // this.$emit('Table:input', $(event.target))
     this.updateTextInStore($(event.target).text())
-    // this.$dispatch(actions.changeText({
-    //   id: this.selection.current.id(),
-    //   value: $(event.target).text()
-    // }))
   }
 }
