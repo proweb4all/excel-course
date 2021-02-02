@@ -21,7 +21,7 @@ export class Formula extends ExcelComponent {
     super.init()
     this.$formula = this.$root.find('#formula')
     this.$on('Table:select', $el => {
-      this.$formula.text($el.text())
+      this.$formula.text($el.data.value)
     })
   }
   storeChanged({currentText}) {

@@ -1,4 +1,6 @@
 import {toInlineStyles} from '../../core/utils';
+import {defaultStyles} from '@/constants';
+import {parse} from '@core/parse';
 
 const CODES = {
   A: 65,
@@ -18,8 +20,10 @@ function createCell(state, row) {
   return function(_, col) {
     const id = `${row}:${col}`
     const data = state.dataState[id]
-    const styles = toInlineStyles(state.stylesState[id])
-    // toInlineStyles(defaultStyles)
+    const styles = toInlineStyles({
+      ...defaultStyles,
+      ...state.stylesState[id]
+    })
     return `
       <div 
         class="cell" 
@@ -27,14 +31,14 @@ function createCell(state, row) {
         contenteditable 
         data-col="${col}" 
         data-id="${id}"
+        data-value="${data || ''}"
         data-type="cell"
-      >${data || ''}</div>
+      >${parse(data) || ''}</div>
     `
   }
 }
 
 function createCol({col, index, width}) {
-  // console.log('createCol:', col, index, width)
   return `
     <div class="column" style="width: ${width}" data-type="resizable" data-col="${index}">
       ${col}
@@ -62,7 +66,6 @@ function toChar(_, ind) {
 
 function widthFrom(state) {
   return function(col, index) {
-    // console.log('widthFrom: ', index, getWidth(state.colState, index))
     return {
       col, index, width: getWidth(state.colState, index)
     }
@@ -70,7 +73,6 @@ function widthFrom(state) {
 }
 
 export function createTable(rowsCount = 10, state = {}) {
-  // console.log('tableState', state)
   const colsCount = CODES.Z - CODES.A + 1
   const rows = []
   const colsInfo = new Array(colsCount)
@@ -78,17 +80,11 @@ export function createTable(rowsCount = 10, state = {}) {
       .map(toChar)
       .map(widthFrom(state))
       .map(createCol)
-      // .map((col, index) => {
-      //   const width = getWidth(state.colState, index)
-      //   console.log(col, index, width)
-      //   return createCol(col, index, width)
-      // })
       .join('\n')
   rows.push(createRow('', colsInfo))
   for (let row = 0; row < rowsCount; row++) {
     const cells = new Array(colsCount)
         .fill('')
-        // .map((_, col) => createCell(row, col))
         .map(createCell(state, row))
         .join('\n')
     rows.push(createRow(row + 1, cells, state.rowState))
