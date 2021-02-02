@@ -11,21 +11,18 @@ export function createToolbar(state) {
   const buttons = [
     {
       icon: 'format_align_left',
-      active: state['textAligh'] === 'left',
-      value: {textAligh: 'left'}
-      // value: {textAligh: state['textAligh'] === 'left' ? 'none' : 'left'}
+      active: state['textAlign'] === 'left',
+      value: {textAlign: 'left'}
     },
     {
       icon: 'format_align_center',
-      active: state['textAligh'] === 'center',
-      value: {textAligh: 'center'}
-      // value: {textAligh: state['textAligh'] === 'center' ? 'none' : 'center'}
+      active: state['textAlign'] === 'center',
+      value: {textAlign: 'center'}
     },
     {
       icon: 'format_align_right',
-      active: state['textAligh'] === 'right',
-      value: {textAligh: 'right'}
-      // value: {textAligh: state['textAligh'] === 'right' ? 'none' : 'right'}
+      active: state['textAlign'] === 'right',
+      value: {textAlign: 'right'}
     },
     {
       icon: 'format_bold',

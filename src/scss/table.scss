@@ -8,9 +8,9 @@
   top: $header-height + $toolbar-height + $formula-height;
   border-bottom: 1px solid $border-color;
   overflow-x: auto;
-  text-align: center;
+  //text-align: center;
   font-size: 12px;
-  line-height: $row-height;
+  // line-height: $row-height;
   .row {
     display: flex;
     flex-wrap: nowrap;
@@ -18,6 +18,9 @@
     min-height: 2px;
     &-info {
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       flex: 0 0 $info-sell-width;
       font-weight: bold;
       border-right: 1px solid $border-color;
@@ -32,15 +35,15 @@
     }
   }
   .cell {
-    display: flex;
+    //display: flex;
     min-width: 12px;
-    align-items: center;
+    //align-items: center;
     width: $data-sell-width;
     border-right: 1px solid $border-color;
     border-bottom: 1px solid $border-color;
-    padding: 0 5px;
+    padding: 5px;
     text-align: left;
-    line-height: 1.3;
+    //line-height: 1.3;
     white-space: nowrap;
     outline: none;
     &.selected {
