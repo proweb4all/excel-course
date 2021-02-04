@@ -5,7 +5,7 @@ import {isCell, matrix, nextSelector, shouldResize} from '@/components/table/tab
 import {TableSelection} from '@/components/table/TableSelection';
 import {$} from '@core/dom';
 import * as actions from '@/redux/actions';
-import {defaultStyles} from '../../constants';
+import {defaultStyles} from '@/constants';
 import {parse} from '@core/parse';
 
 
@@ -65,7 +65,6 @@ export class Table extends ExcelComponent {
         const $cells = matrix(this.selection.current, $target).map(id => this.$root.find(`[data-id="${id}"]`))
         this.selection.selectGroup($target, $cells)
       } else {
-        // this.selection.select($target)
         this.selectCell($target)
       }
     }
